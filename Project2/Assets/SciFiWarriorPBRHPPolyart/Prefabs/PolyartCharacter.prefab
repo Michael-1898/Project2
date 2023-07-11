@@ -1955,7 +1955,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f61d3729f95f5440bd311c6da58c791, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cam: {fileID: 963194227}
+  cam: {fileID: 0}
   moveSpeed: 10
   mouseSensitivity: 1
   mouseYMax: 45
