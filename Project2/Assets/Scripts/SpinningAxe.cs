@@ -15,4 +15,9 @@ public class SpinningAxe : MonoBehaviour
     {
         
     }
+
+    void OnCollisionEnter(Collision col)
+    {
+        
+    }
 }
