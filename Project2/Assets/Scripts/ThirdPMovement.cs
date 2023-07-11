@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody))]
-public class FPSMovement : MonoBehaviour
+public class ThirdPMovement : MonoBehaviour
 {
     [SerializeField] private Camera cam;
     [SerializeField] private float moveSpeed;
