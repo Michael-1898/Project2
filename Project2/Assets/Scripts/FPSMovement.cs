@@ -12,11 +12,14 @@ public class FPSMovement : MonoBehaviour
     float yDir;
 
     public float moveSpeed;
+    [SerializeField] float jumpForce;
     public float mouseSensitivity;
     public float mouseYMax;
     public float mouseYMin;
 
     [SerializeField] Camera cam;
+
+    [SerializeField] Rigidbody rb;
     // Start is called before the first frame update
     void Start()
     {
@@ -67,5 +70,10 @@ public class FPSMovement : MonoBehaviour
         // } else {
         //     cam.transform.position = new Vector3(cam.transform.position.x, 2.53f, cam.transform.position.z);
         // }
+    }
+
+    public void OnJump(InputValue action)
+    {
+        rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
     }
 }
