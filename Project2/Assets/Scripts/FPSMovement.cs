@@ -60,7 +60,7 @@ public class FPSMovement : MonoBehaviour
         xDir = Mathf.Clamp(xDir, mouseYMin, mouseYMax);
 
         transform.rotation = Quaternion.Euler(0, yDir, 0);
-        cam.transform.localRotation = Quaternion.Euler(xDir, yDir, 0);
+        cam.transform.localRotation = Quaternion.Euler(xDir, 0, 0);
         
         //attempt at fancy camera stuff:
         //------------------------------
