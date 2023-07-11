@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -12,6 +10,7 @@ public class FPSMovement : MonoBehaviour
     [SerializeField] private float mouseYMax;
     [SerializeField] private float mouseYMin;
     [SerializeField] private float jumpForce;
+    [SerializeField] private float castLength;
 
     private Rigidbody rb;
     private Keyboard kb;
@@ -73,10 +72,16 @@ public class FPSMovement : MonoBehaviour
     }
 
     private void FixedUpdate() {
-        rb.AddForce(moveDir * moveSpeed, ForceMode.Force);
+        rb.AddForce(moveDir * moveSpeed, ForceMode.VelocityChange);
     }
 
     private void OnJump(InputValue action) {
-        rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+        if(IsGrounded()) {
+            rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+        }
+    }
+
+    private bool IsGrounded() {
+        return Physics.Raycast(transform.position, -transform.up, castLength);
     }
 }

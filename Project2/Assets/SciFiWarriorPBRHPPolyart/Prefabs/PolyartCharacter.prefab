@@ -1956,11 +1956,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 963194227}
-  moveSpeed: 10
-  mouseSensitivity: 1
+  moveSpeed: 1
+  mouseSensitivity: 0.5
   mouseYMax: 45
   mouseYMin: 15
-  jumpForce: 0
+  jumpForce: 5
+  castLength: 0.1
 --- !u!114 &838656851
 MonoBehaviour:
   m_ObjectHideFlags: 0
