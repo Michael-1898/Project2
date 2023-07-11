@@ -15,6 +15,8 @@ public class FPSMovement : MonoBehaviour
     public float mouseSensitivity;
     public float mouseYMax;
     public float mouseYMin;
+
+    [SerializeField] Camera cam;
     // Start is called before the first frame update
     void Start()
     {
@@ -55,6 +57,15 @@ public class FPSMovement : MonoBehaviour
 
         xDir = Mathf.Clamp(xDir, mouseYMin, mouseYMax);
 
-        transform.rotation = Quaternion.Euler(xDir, yDir, 0);
+        transform.rotation = Quaternion.Euler(0, yDir, 0);
+        cam.transform.rotation = Quaternion.Euler(xDir, yDir, 0);
+        
+        //attempt at fancy camera stuff:
+        //------------------------------
+        // if(Mathf.Abs(cam.transform.rotation.x) >= 0.05f) {
+        //     cam.transform.position = new Vector3(cam.transform.position.x, 2.53f - Mathf.Abs(cam.transform.rotation.x) * 4, cam.transform.position.z);
+        // } else {
+        //     cam.transform.position = new Vector3(cam.transform.position.x, 2.53f, cam.transform.position.z);
+        // }
     }
 }
