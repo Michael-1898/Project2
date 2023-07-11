@@ -1962,6 +1962,7 @@ MonoBehaviour:
   mouseYMin: 15
   jumpForce: 5
   castLength: 0.1
+  anim: {fileID: 7072444061582351952}
 --- !u!114 &838656851
 MonoBehaviour:
   m_ObjectHideFlags: 0

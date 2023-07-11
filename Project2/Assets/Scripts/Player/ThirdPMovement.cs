@@ -20,6 +20,8 @@ public class ThirdPMovement : MonoBehaviour
     private float xDir;
     private float yDir;
 
+    [SerializeField] Animator anim;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -35,10 +37,22 @@ public class ThirdPMovement : MonoBehaviour
     {
         moveDir = Vector3.zero;
 
-        if (kb.wKey.isPressed) moveDir += Vector3.forward;
-        if (kb.aKey.isPressed) moveDir -= Vector3.right;
-        if (kb.sKey.isPressed) moveDir -= Vector3.forward;
-        if (kb.dKey.isPressed) moveDir += Vector3.right;
+        if (kb.wKey.isPressed) {
+            moveDir += Vector3.forward;
+            SetAnimWalkForward();
+        }
+        if (kb.aKey.isPressed) {
+            moveDir -= Vector3.right;
+            SetAnimWalkLeft();
+        }
+        if (kb.sKey.isPressed) {
+            moveDir -= Vector3.forward;
+            SetAnimWalkBackward();
+        }
+        if (kb.dKey.isPressed) {
+            moveDir += Vector3.right;
+            SetAnimWalkRight();
+        }
 
         moveDir = Quaternion.AngleAxis(yDir, Vector3.up) * moveDir;
 
@@ -69,10 +83,12 @@ public class ThirdPMovement : MonoBehaviour
         // } else {
         //     cam.transform.position = new Vector3(cam.transform.position.x, 2.53f, cam.transform.position.z);
         // }
+        print(moveDir);
     }
 
     private void FixedUpdate() {
         rb.AddForce(moveDir * moveSpeed, ForceMode.VelocityChange);
+        //rb.velocity = moveDir * moveSpeed;
     }
 
     private void OnJump(InputValue action) {
@@ -83,5 +99,37 @@ public class ThirdPMovement : MonoBehaviour
 
     private bool IsGrounded() {
         return Physics.Raycast(transform.position, -transform.up, castLength);
+    }
+
+    private void SetAnimWalkForward()
+    {
+        anim.SetBool("movingForward", true);
+        anim.SetBool("movingBackward", false);
+        anim.SetBool("movingLeft", false);
+        anim.SetBool("movingRight", false);
+    }
+
+    private void SetAnimWalkBackward()
+    {
+        anim.SetBool("movingForward", false);
+        anim.SetBool("movingBackward", true);
+        anim.SetBool("movingLeft", false);
+        anim.SetBool("movingRight", false);
+    }
+
+    private void SetAnimWalkLeft()
+    {
+        anim.SetBool("movingForward", false);
+        anim.SetBool("movingBackward", false);
+        anim.SetBool("movingLeft", true);
+        anim.SetBool("movingRight", false);
+    }
+
+    private void SetAnimWalkRight()
+    {
+        anim.SetBool("movingForward", false);
+        anim.SetBool("movingBackward", false);
+        anim.SetBool("movingLeft", false);
+        anim.SetBool("movingRight", true);
     }
 }
