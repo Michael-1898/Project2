@@ -3,45 +3,45 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(Rigidbody))]
 public class FPSMovement : MonoBehaviour
 {
-    Keyboard kb;
-    Mouse mouse;
+    [SerializeField] private Camera cam;
+    [SerializeField] private float moveSpeed;
+    [SerializeField] private float mouseSensitivity;
+    [SerializeField] private float mouseYMax;
+    [SerializeField] private float mouseYMin;
+    [SerializeField] private float jumpForce;
 
-    float xDir;
-    float yDir;
+    private Rigidbody rb;
+    private Keyboard kb;
+    private Mouse mouse;
+    private Vector3 moveDir;
 
-    public float moveSpeed;
-    [SerializeField] float jumpForce;
-    public float mouseSensitivity;
-    public float mouseYMax;
-    public float mouseYMin;
+    private float xDir;
+    private float yDir;
 
-    [SerializeField] Camera cam;
-
-    [SerializeField] Rigidbody rb;
     // Start is called before the first frame update
     void Start()
     {
+        rb = GetComponent<Rigidbody>();
+        kb = Keyboard.current;
+        mouse = Mouse.current;
+
         Cursor.lockState = CursorLockMode.Locked;
     }
 
     // Update is called once per frame
     void Update()
     {
-        kb = Keyboard.current;
-        mouse = Mouse.current;
-
-        Vector3 moveDir = Vector3.zero;
+        moveDir = Vector3.zero;
 
         if (kb.wKey.isPressed) moveDir += Vector3.forward;
-        if (kb.sKey.isPressed) moveDir -= Vector3.forward;
         if (kb.aKey.isPressed) moveDir -= Vector3.right;
+        if (kb.sKey.isPressed) moveDir -= Vector3.forward;
         if (kb.dKey.isPressed) moveDir += Vector3.right;
 
         moveDir = Quaternion.AngleAxis(yDir, Vector3.up) * moveDir;
-
-        transform.position += moveDir * moveSpeed * Time.deltaTime;
 
         if(kb.escapeKey.wasPressedThisFrame)
         {
@@ -61,7 +61,7 @@ public class FPSMovement : MonoBehaviour
         xDir = Mathf.Clamp(xDir, mouseYMin, mouseYMax);
 
         transform.rotation = Quaternion.Euler(0, yDir, 0);
-        cam.transform.rotation = Quaternion.Euler(xDir, yDir, 0);
+        cam.transform.localRotation = Quaternion.Euler(xDir, yDir, 0);
         
         //attempt at fancy camera stuff:
         //------------------------------
@@ -72,8 +72,11 @@ public class FPSMovement : MonoBehaviour
         // }
     }
 
-    public void OnJump(InputValue action)
-    {
+    private void FixedUpdate() {
+        rb.AddForce(moveDir * moveSpeed, ForceMode.Force);
+    }
+
+    private void OnJump(InputValue action) {
         rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
     }
 }
