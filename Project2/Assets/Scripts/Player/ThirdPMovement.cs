@@ -83,12 +83,11 @@ public class ThirdPMovement : MonoBehaviour
         // } else {
         //     cam.transform.position = new Vector3(cam.transform.position.x, 2.53f, cam.transform.position.z);
         // }
-        print(moveDir);
     }
 
     private void FixedUpdate() {
-        rb.AddForce(moveDir * moveSpeed, ForceMode.VelocityChange);
-        //rb.velocity = moveDir * moveSpeed;
+        //rb.AddForce(moveDir * moveSpeed, ForceMode.VelocityChange);
+        rb.velocity = moveDir * moveSpeed;
     }
 
     private void OnJump(InputValue action) {
