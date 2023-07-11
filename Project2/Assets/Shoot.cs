@@ -31,7 +31,7 @@ public class Shoot : MonoBehaviour
             RaycastHit hit;
 
             // If the ray hit something
-            if (Physics.Raycast(ray, out hit, enemyLayerMask))
+            if (Physics.Raycast(ray, out hit))
             {
                 Debug.Log("Hit " + hit.collider.gameObject.name);
                 Destroy(hit.collider.gameObject);
