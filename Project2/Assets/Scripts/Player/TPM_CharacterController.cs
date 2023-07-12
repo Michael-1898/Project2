@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class TPM_CharacterController : MonoBehaviour
-{
+public class TPM_CharacterController : MonoBehaviour {
     [Header("Ground Check")]
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundMask;
@@ -41,6 +40,7 @@ public class TPM_CharacterController : MonoBehaviour
 
         cam = Camera.main;
         characterController = GetComponent<CharacterController>();
+        anim = GetComponent<Animator>();
 
         Cursor.lockState = CursorLockMode.Locked;
     }
@@ -56,19 +56,6 @@ public class TPM_CharacterController : MonoBehaviour
         moveVelocity += new Vector3(0, yAxisVelocity, 0);
         characterController.Move(moveVelocity * Time.deltaTime);
         CursorCheck();
-
-        //animations
-        // if(moveRawInput.z > 0.1f) {
-        //     SetAnimWalkForward();
-        // } else if(moveRawInput.z < -0.1f) {
-        //     SetAnimWalkBackward();
-        // } else if(moveRawInput.x > 0.1f) {
-        //     SetAnimWalkRight();
-        // } else if(moveRawInput.x < -0.1f) {
-        //     SetAnimWalkLeft();
-        // } else {
-        //     SetAnimIdle();
-        // }
     }
 
     private void CursorCheck() {
@@ -93,66 +80,23 @@ public class TPM_CharacterController : MonoBehaviour
     private void OnMove(InputValue value)
     {
         moveRawInput = new Vector3(value.Get<Vector2>().x, 0, value.Get<Vector2>().y);
+
+        anim.SetBool("WalkFront", moveRawInput.z > 0);
+        anim.SetBool("WalkBack", moveRawInput.z < 0);
+        anim.SetBool("WalkLeft", moveRawInput.x < 0);
+        anim.SetBool("WalkRight", moveRawInput.x > 0);
     }
 
     private void OnJump()
     {
         if(isGrounded) {
             yAxisVelocity = jumpForce;
+            anim.SetTrigger("Jump");
         }
     }
 
     private void GroundCheck()
     {
         isGrounded = Physics.CheckSphere(groundCheck.transform.position, groundCheckRadius, groundMask);
-    }
-
-    private void SetAnimWalkForward()
-    {
-        anim.SetBool("movingForward", true);
-        anim.SetBool("movingBackward", false);
-        anim.SetBool("movingLeft", false);
-        anim.SetBool("movingRight", false);
-    }
-
-    private void SetAnimWalkBackward()
-    {
-        anim.SetBool("movingForward", false);
-        anim.SetBool("movingBackward", true);
-        anim.SetBool("movingLeft", false);
-        anim.SetBool("movingRight", false);
-    }
-
-    private void SetAnimWalkLeft()
-    {
-        anim.SetBool("movingForward", false);
-        anim.SetBool("movingBackward", false);
-        anim.SetBool("movingLeft", true);
-        anim.SetBool("movingRight", false);
-    }
-
-    private void SetAnimWalkRight()
-    {
-        anim.SetBool("movingForward", false);
-        anim.SetBool("movingBackward", false);
-        anim.SetBool("movingLeft", false);
-        anim.SetBool("movingRight", true);
-    }
-
-    private void SetAnimIdle()
-    {
-        anim.SetBool("movingForward", false);
-        anim.SetBool("movingBackward", false);
-        anim.SetBool("movingLeft", false);
-        anim.SetBool("movingRight", false);
-    }
-
-    private void SetAnimJump()
-    {
-        anim.SetBool("movingForward", false);
-        anim.SetBool("movingBackward", false);
-        anim.SetBool("movingLeft", false);
-        anim.SetBool("movingRight", false);
-        anim.SetBool("isJumping", true);
     }
 }
