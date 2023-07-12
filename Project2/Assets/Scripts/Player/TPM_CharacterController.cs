@@ -5,38 +5,34 @@ using UnityEngine.InputSystem;
 
 public class TPM_CharacterController : MonoBehaviour
 {
-    private Mouse mouse;
-    private Camera cam;
-    private CharacterController characterController;
-    [SerializeField] Animator anim;
-
-    //Grounded Variables
-    [SerializeField] Transform groundCheck;
-    [SerializeField] float groundCheckRadius;
-    [SerializeField] LayerMask groundMask;
+    [Header("Ground Check")]
+    [SerializeField] private Transform groundCheck;
+    [SerializeField] private LayerMask groundMask;
+    [SerializeField] private float groundCheckRadius;
     private bool isGrounded;
 
-    //Player Input Variables
+    [Header("Input")]
     private Vector3 moveRawInput;
     private Vector2 mouseRawInput;
     private float xRotation;
     private float yRotation;
     private Vector3 moveVelocity;
 
-    //movement variables
+    [Header("Player Movement")]
     private float yAxisVelocity;
-    [SerializeField] float moveSpeed;
-    [SerializeField] float gravity = -9.81f;
-    [SerializeField] float gravityMultiplier;
-    [SerializeField] float mouseYMax;
-    [SerializeField] float mouseYMin;
-    [SerializeField] float mouseSensitivity;
+    [SerializeField] private float mouseSensitivity, mouseYMax, mouseYMin;
+    [SerializeField] private float moveSpeed;
+    [SerializeField] private float gravity = -9.8f;
+    [SerializeField] private float gravityMultiplier;
 
-    //jumping variables
-    [SerializeField] float jumpSpeed;
-    private bool isJumping;
-    [SerializeField] float jumpDuration;
-    private float jumpTimer;
+    [Header("Jump")]
+    [SerializeField] private float jumpForce;
+
+    [Header("Misc")]
+    private Mouse mouse;
+    private Camera cam;
+    private CharacterController characterController;
+    private Animator anim;
 
     // Start is called before the first frame update
     void Start()
@@ -54,34 +50,30 @@ public class TPM_CharacterController : MonoBehaviour
     {
         GroundCheck();
 
-        if(isGrounded) {
-            yAxisVelocity = -2f;
-        } else {
-            yAxisVelocity += gravity * gravityMultiplier * Time.deltaTime;
-        }
-        
-        if(isJumping) {
-            Jump();
-        }
-        if(anim.GetBool("isJumping") && anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f) {
-            anim.SetBool("isJumping", false);
-        }
+        yAxisVelocity += gravity * gravityMultiplier * Time.deltaTime;
 
         moveVelocity = transform.TransformDirection(moveRawInput) * moveSpeed;
         moveVelocity += new Vector3(0, yAxisVelocity, 0);
         characterController.Move(moveVelocity * Time.deltaTime);
+        CursorCheck();
 
         //animations
-        if(moveRawInput.z > 0.1f) {
-            SetAnimWalkForward();
-        } else if(moveRawInput.z < -0.1f) {
-            SetAnimWalkBackward();
-        } else if(moveRawInput.x > 0.1f) {
-            SetAnimWalkRight();
-        } else if(moveRawInput.x < -0.1f) {
-            SetAnimWalkLeft();
-        } else {
-            SetAnimIdle();
+        // if(moveRawInput.z > 0.1f) {
+        //     SetAnimWalkForward();
+        // } else if(moveRawInput.z < -0.1f) {
+        //     SetAnimWalkBackward();
+        // } else if(moveRawInput.x > 0.1f) {
+        //     SetAnimWalkRight();
+        // } else if(moveRawInput.x < -0.1f) {
+        //     SetAnimWalkLeft();
+        // } else {
+        //     SetAnimIdle();
+        // }
+    }
+
+    private void CursorCheck() {
+        if (mouse.rightButton.wasPressedThisFrame) {
+            Cursor.lockState = CursorLockMode.Locked;
         }
     }
 
@@ -103,32 +95,16 @@ public class TPM_CharacterController : MonoBehaviour
         moveRawInput = new Vector3(value.Get<Vector2>().x, 0, value.Get<Vector2>().y);
     }
 
-    private void OnJump(InputValue value)
+    private void OnJump()
     {
         if(isGrounded) {
-            isJumping = true;
-            SetAnimJump();
+            yAxisVelocity = jumpForce;
         }
     }
 
-    void GroundCheck()
+    private void GroundCheck()
     {
         isGrounded = Physics.CheckSphere(groundCheck.transform.position, groundCheckRadius, groundMask);
-    }
-
-    void Jump()
-    {
-        yAxisVelocity = jumpSpeed;
-        jumpTimer += Time.deltaTime;
-        if(jumpTimer >= jumpDuration) {
-            jumpTimer = 0;
-            isJumping = false;
-        }
-    }
-
-    void OnDrawGizmosSelected()
-    {
-
     }
 
     private void SetAnimWalkForward()

@@ -1046,12 +1046,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5710338963793504271}
-  - component: {fileID: 1473754481349725972}
   - component: {fileID: 3249748929757063894}
   - component: {fileID: 3249748930891496110}
   - component: {fileID: 5710338963784140717}
-  - component: {fileID: 1473754481349725973}
   - component: {fileID: 1473754481349725970}
+  - component: {fileID: 1473754481349725973}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1083,20 +1082,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &1473754481349725972
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5710338963793540143}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &3249748929757063894
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1163,32 +1148,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &1473754481349725973
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5710338963793540143}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae880f1e10cab374180794c2019c2fb0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  anim: {fileID: 5710338963784140717}
-  groundCheck: {fileID: 8231540791360540864}
-  groundCheckRadius: 0.5
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 64
-  moveSpeed: 10
-  gravity: -9.81
-  gravityMultiplier: 10
-  mouseYMax: 45
-  mouseYMin: 5
-  mouseSensitivity: 40
-  jumpSpeed: 15
-  jumpDuration: 0.2
 --- !u!143 &1473754481349725970
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1207,6 +1166,30 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &1473754481349725973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5710338963793540143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae880f1e10cab374180794c2019c2fb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groundCheck: {fileID: 8231540791360540864}
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 64
+  groundCheckRadius: 0.1
+  mouseSensitivity: 90
+  mouseYMax: 45
+  mouseYMin: 15
+  moveSpeed: 10
+  gravity: -9.81
+  gravityMultiplier: 10
+  jumpForce: 25
 --- !u!1 &5710338963793540145
 GameObject:
   m_ObjectHideFlags: 0
