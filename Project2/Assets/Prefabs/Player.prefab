@@ -1187,7 +1187,7 @@ MonoBehaviour:
   mouseYMax: 45
   mouseYMin: 5
   mouseSensitivity: 40
-  jumpSpeed: 13
+  jumpSpeed: 15
   jumpDuration: 0.2
 --- !u!143 &1473754481349725970
 CharacterController:
