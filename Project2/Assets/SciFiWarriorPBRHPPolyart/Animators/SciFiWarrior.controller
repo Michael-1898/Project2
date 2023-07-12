@@ -394,7 +394,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: WalkRight_Shoot_AR
-  m_Speed: 1.7
+  m_Speed: 1.9
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 8849292972480645960}
@@ -448,7 +448,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: WalkLeft_Shoot_AR
-  m_Speed: 1.7
+  m_Speed: 1.9
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -9153958492335737395}

@@ -27,6 +27,12 @@ public class TPM_CharacterController : MonoBehaviour {
     [Header("Jump")]
     [SerializeField] private float jumpForce;
 
+    [Header("Knockback")]
+    private bool isKnockBackApplied;
+    private float knockbackSpeed;
+    private float kbTimer;
+    [SerializeField] float kbDuration;
+
     [Header("Misc")]
     private Mouse mouse;
     private Camera cam;
@@ -52,8 +58,16 @@ public class TPM_CharacterController : MonoBehaviour {
 
         yAxisVelocity += gravity * gravityMultiplier * Time.deltaTime;
 
-        moveVelocity = transform.TransformDirection(moveRawInput) * moveSpeed;
-        moveVelocity += new Vector3(0, yAxisVelocity, 0);
+        if(!isKnockBackApplied) {
+            moveVelocity = transform.TransformDirection(moveRawInput) * moveSpeed;
+            moveVelocity += new Vector3(0, yAxisVelocity, 0);
+        } else {
+            kbTimer += Time.deltaTime;
+            if(kbTimer >= kbDuration) {
+                isKnockBackApplied = false;
+                kbTimer = 0;
+            }
+        }
         characterController.Move(moveVelocity * Time.deltaTime);
         CursorCheck();
     }
@@ -98,5 +112,11 @@ public class TPM_CharacterController : MonoBehaviour {
     private void GroundCheck()
     {
         isGrounded = Physics.CheckSphere(groundCheck.transform.position, groundCheckRadius, groundMask);
+    }
+
+    public void TakeKnockback(float kbSpeed, Vector3 kbDir)
+    {
+        moveVelocity = new Vector3(kbDir.x, kbDir.y, kbDir.z) * kbSpeed;
+        isKnockBackApplied = true;
     }
 }

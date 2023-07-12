@@ -5,9 +5,13 @@ using UnityEngine.AI;
 
 public class chaseEnemy : MonoBehaviour
 {
+    [Header("NavMesh")]
     public NavMeshAgent agent;
     [SerializeField] Transform playerPosition;
+
+    [Header("Hitting Player")]
     [SerializeField] float kbSpeed;
+    private bool playerHit;
 
     // Start is called before the first frame update
     void Start()
@@ -26,10 +30,17 @@ public class chaseEnemy : MonoBehaviour
         agent.SetDestination(playerPosition.position);
     }
 
-    void OnCollisionEnter(Collision col)
+    void OnTriggerEnter(Collider col)
     {
-        if(col.gameObject.CompareTag("Player")) {
-            //col.gameObject.GetComponent<TPM_CharacterController>().TakeKnockback(kbSpeed);
+        if(col.gameObject.CompareTag("Player") && !playerHit) {
+            Vector3 kbDir = (playerPosition.position - transform.position).normalized;
+            col.gameObject.GetComponent<TPM_CharacterController>().TakeKnockback(kbSpeed, kbDir);
+            playerHit = true;
         }
+    }
+
+    void OnTriggerExit(Collider col)
+    {
+        playerHit = false;
     }
 }

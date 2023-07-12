@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1259794735006142262}
   - component: {fileID: 1258202897256634048}
   - component: {fileID: 1258202897256634051}
+  - component: {fileID: 6139078711974319854}
   m_Layer: 0
   m_Name: axe_s
   m_TagString: Untagged
@@ -63,6 +64,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 3.7331579, y: 6.5997944, z: 0.51532316}
   m_Center: {x: 0, y: -0.20547926, z: 0}
+--- !u!114 &6139078711974319854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1258202897256634050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8dd1559f2bf2ab47a71f165c736a568, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  kbSpeed: 26
 --- !u!1 &1258202897382255150
 GameObject:
   m_ObjectHideFlags: 0
@@ -281,8 +295,8 @@ HingeJoint:
     targetPosition: 0
   m_UseMotor: 1
   m_Motor:
-    targetVelocity: 450
-    force: 10
+    targetVelocity: 1200
+    force: 70
     freeSpin: 0
   m_UseLimits: 0
   m_Limits:
