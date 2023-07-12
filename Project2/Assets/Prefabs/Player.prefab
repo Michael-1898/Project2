@@ -1183,9 +1183,12 @@ MonoBehaviour:
     m_Bits: 64
   moveSpeed: 10
   gravity: -9.81
+  gravityMultiplier: 9
   mouseYMax: 45
   mouseYMin: 5
   mouseSensitivity: 40
+  jumpSpeed: 13
+  jumpDuration: 0.2
 --- !u!143 &1473754481349725970
 CharacterController:
   m_ObjectHideFlags: 0

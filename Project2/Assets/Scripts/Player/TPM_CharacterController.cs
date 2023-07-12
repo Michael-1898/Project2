@@ -27,10 +27,16 @@ public class TPM_CharacterController : MonoBehaviour
     private float yAxisVelocity;
     [SerializeField] float moveSpeed;
     [SerializeField] float gravity = -9.81f;
+    [SerializeField] float gravityMultiplier;
     [SerializeField] float mouseYMax;
     [SerializeField] float mouseYMin;
     [SerializeField] float mouseSensitivity;
+
+    //jumping variables
     [SerializeField] float jumpSpeed;
+    private bool isJumping;
+    [SerializeField] float jumpDuration;
+    private float jumpTimer;
 
     // Start is called before the first frame update
     void Start()
@@ -51,8 +57,13 @@ public class TPM_CharacterController : MonoBehaviour
         if(isGrounded) {
             yAxisVelocity = -2f;
         } else {
-            yAxisVelocity = gravity * Time.deltaTime;
+            yAxisVelocity += gravity * gravityMultiplier * Time.deltaTime;
         }
+        
+        if(isJumping) {
+            Jump();
+        }
+
         moveVelocity = transform.TransformDirection(moveRawInput) * moveSpeed;
         moveVelocity += new Vector3(0, yAxisVelocity, 0);
         characterController.Move(moveVelocity * Time.deltaTime);
@@ -91,12 +102,24 @@ public class TPM_CharacterController : MonoBehaviour
 
     private void OnJump(InputValue value)
     {
-        yAxisVelocity = jumpSpeed;
+        if(isGrounded) {
+            isJumping = true;
+        }
     }
 
     void GroundCheck()
     {
         isGrounded = Physics.CheckSphere(groundCheck.transform.position, groundCheckRadius, groundMask);
+    }
+
+    void Jump()
+    {
+        yAxisVelocity = jumpSpeed;
+        jumpTimer += Time.deltaTime;
+        if(jumpTimer >= jumpDuration) {
+            jumpTimer = 0;
+            isJumping = false;
+        }
     }
 
     void OnDrawGizmosSelected()
