@@ -1183,7 +1183,7 @@ MonoBehaviour:
     m_Bits: 64
   moveSpeed: 10
   gravity: -9.81
-  gravityMultiplier: 9
+  gravityMultiplier: 10
   mouseYMax: 45
   mouseYMin: 5
   mouseSensitivity: 40

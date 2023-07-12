@@ -63,6 +63,9 @@ public class TPM_CharacterController : MonoBehaviour
         if(isJumping) {
             Jump();
         }
+        if(anim.GetBool("isJumping") && anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f) {
+            anim.SetBool("isJumping", false);
+        }
 
         moveVelocity = transform.TransformDirection(moveRawInput) * moveSpeed;
         moveVelocity += new Vector3(0, yAxisVelocity, 0);
@@ -104,6 +107,7 @@ public class TPM_CharacterController : MonoBehaviour
     {
         if(isGrounded) {
             isJumping = true;
+            SetAnimJump();
         }
     }
 
@@ -165,5 +169,14 @@ public class TPM_CharacterController : MonoBehaviour
         anim.SetBool("movingBackward", false);
         anim.SetBool("movingLeft", false);
         anim.SetBool("movingRight", false);
+    }
+
+    private void SetAnimJump()
+    {
+        anim.SetBool("movingForward", false);
+        anim.SetBool("movingBackward", false);
+        anim.SetBool("movingLeft", false);
+        anim.SetBool("movingRight", false);
+        anim.SetBool("isJumping", true);
     }
 }
