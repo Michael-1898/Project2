@@ -28,10 +28,9 @@ public class TPM_CharacterController : MonoBehaviour {
     [SerializeField] private float jumpForce;
 
     [Header("Knockback")]
-    private bool isKnockBackApplied;
-    private float knockbackSpeed;
-    private float kbTimer;
-    [SerializeField] float kbDuration;
+    private float knockbackTimer;
+    private bool isKnockbackApplied;
+
 
     [Header("Misc")]
     private Mouse mouse;
@@ -58,16 +57,16 @@ public class TPM_CharacterController : MonoBehaviour {
 
         yAxisVelocity += gravity * gravityMultiplier * Time.deltaTime;
 
-        if(!isKnockBackApplied) {
+        if(!isKnockbackApplied) {
             moveVelocity = transform.TransformDirection(moveRawInput) * moveSpeed;
-            moveVelocity += new Vector3(0, yAxisVelocity, 0);
         } else {
-            kbTimer += Time.deltaTime;
-            if(kbTimer >= kbDuration) {
-                isKnockBackApplied = false;
-                kbTimer = 0;
+            knockbackTimer -= Time.deltaTime;
+            if(knockbackTimer <= 0) {
+                isKnockbackApplied = false;
             }
         }
+
+        moveVelocity += new Vector3(0, yAxisVelocity, 0);
         characterController.Move(moveVelocity * Time.deltaTime);
         CursorCheck();
     }
@@ -103,7 +102,7 @@ public class TPM_CharacterController : MonoBehaviour {
 
     private void OnJump()
     {
-        if(isGrounded) {
+        if(isGrounded && !isKnockbackApplied) {
             yAxisVelocity = jumpForce;
             anim.SetTrigger("Jump");
         }
@@ -114,9 +113,10 @@ public class TPM_CharacterController : MonoBehaviour {
         isGrounded = Physics.CheckSphere(groundCheck.transform.position, groundCheckRadius, groundMask);
     }
 
-    public void TakeKnockback(float kbSpeed, Vector3 kbDir)
+    public void TakeKnockback(Vector3 knockbackDirection, float knockbackSpeed, float knockbackDuration)
     {
-        moveVelocity = new Vector3(kbDir.x, kbDir.y, kbDir.z) * kbSpeed;
-        isKnockBackApplied = true;
+        moveVelocity = knockbackDirection * knockbackSpeed;
+        knockbackTimer = knockbackDuration;
+        isKnockbackApplied = true;
     }
 }

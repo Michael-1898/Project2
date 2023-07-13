@@ -345,9 +345,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1289161679fd8d244b71ca31a46c1009, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  agent: {fileID: 7901791093310864073}
   playerPosition: {fileID: 0}
-  kbSpeed: 9
+  agent: {fileID: 7901791093310864073}
+  knockbackSpeed: 0
+  knockbackDuration: 0
 --- !u!136 &7901791093310864071
 CapsuleCollider:
   m_ObjectHideFlags: 0

@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class chaseEnemy : MonoBehaviour
+public class ChaseEnemy : MonoBehaviour
 {
     [Header("NavMesh")]
-    public NavMeshAgent agent;
-    [SerializeField] Transform playerPosition;
+    [SerializeField] private Transform playerPosition;
+    [SerializeField] private NavMeshAgent agent;
 
-    [Header("Hitting Player")]
-    [SerializeField] float kbSpeed;
-    private bool playerHit;
+    [Header("Damage")]
+    [SerializeField] private float knockbackSpeed;
+    [SerializeField] private float knockbackDuration;
+    private bool playerAlreadyHit = false;
 
     // Start is called before the first frame update
     void Start()
@@ -25,22 +26,24 @@ public class chaseEnemy : MonoBehaviour
         
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         agent.SetDestination(playerPosition.position);
     }
 
-    void OnTriggerEnter(Collider col)
+    private void OnTriggerEnter(Collider col)
     {
-        if(col.gameObject.CompareTag("Player") && !playerHit) {
-            Vector3 kbDir = (playerPosition.position - transform.position).normalized;
-            col.gameObject.GetComponent<TPM_CharacterController>().TakeKnockback(kbSpeed, kbDir);
-            playerHit = true;
+        if(col.CompareTag("Player") && !playerAlreadyHit) {
+            Vector3 knockbackDirection = (col.gameObject.transform.position - transform.position).normalized;
+            col.GetComponent<TPM_CharacterController>().TakeKnockback(knockbackDirection, knockbackSpeed, knockbackDuration);
+            playerAlreadyHit = true;
         }
     }
 
-    void OnTriggerExit(Collider col)
+    private void OnTriggerExit(Collider col)
     {
-        playerHit = false;
+        if (col.CompareTag("Player")) {
+            playerAlreadyHit = false;
+        }
     }
 }

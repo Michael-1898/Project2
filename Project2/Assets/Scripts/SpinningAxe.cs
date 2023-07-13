@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class SpinningAxe : MonoBehaviour
 {
-    private bool playerHit;
-    [SerializeField] float kbSpeed;
+    [SerializeField] private float knockbackSpeed;
+    [SerializeField] private float knockbackDuration;
+    private bool playerAlreadyHit = false;
 
     // Start is called before the first frame update
     void Start()
@@ -19,17 +20,19 @@ public class SpinningAxe : MonoBehaviour
         
     }
 
-    void OnCollisionEnter(Collision col)
+    private void OnTriggerEnter(Collider col)
     {
-        if(col.gameObject.CompareTag("Player") && !playerHit) {
-            Vector3 kbDir = (col.gameObject.transform.position - transform.position).normalized;
-            col.gameObject.GetComponent<TPM_CharacterController>().TakeKnockback(kbSpeed, kbDir);
-            playerHit = true;
+        if (col.CompareTag("Player") && !playerAlreadyHit) {
+            Vector3 knockbackDirection = (col.gameObject.transform.position - transform.position).normalized;
+            col.GetComponent<TPM_CharacterController>().TakeKnockback(knockbackDirection, knockbackSpeed, knockbackDuration);
+            playerAlreadyHit = true;
         }
     }
 
-    void OnCollisionExit(Collision col)
+    private void OnTriggerExit(Collider col)
     {
-        playerHit = false;
+        if (col.CompareTag("Player")) {
+            playerAlreadyHit = false;
+        }
     }
 }
