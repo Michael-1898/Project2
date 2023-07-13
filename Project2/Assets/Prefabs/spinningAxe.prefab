@@ -76,8 +76,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8dd1559f2bf2ab47a71f165c736a568, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  knockbackSpeed: 0
-  knockbackDuration: 0
+  knockbackSpeed: 200
+  knockbackDuration: 0.3
 --- !u!1 &1258202897382255150
 GameObject:
   m_ObjectHideFlags: 0
